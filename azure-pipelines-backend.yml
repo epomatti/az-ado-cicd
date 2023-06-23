@@ -24,12 +24,12 @@ steps:
   inputs:
     command: 'build'
     workingDirectory: backend
-    configuration: Release
+    configuration: Release    
 
 - task: ArchiveFiles@2
   displayName: 'Create archive for app service deployment'
   inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)\backend\bin\Release'
+    rootFolderOrFile: '$(Build.DefaultWorkingDirectory)\backend\bin\Release'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.StagingDirectory)/$(Build.BuildId).zip'
