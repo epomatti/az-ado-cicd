@@ -45,5 +45,5 @@ steps:
     appType: 'webAppLinux'
     WebAppName: 'app-backend-myapp789'
     # packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
-    packageForLinux: '$(System.ArtifactStagingDirectory)/**/*.zip'
+    packageForLinux: '**/*.zip'
     RuntimeStack: 'DOTNETCORE|7.0'
