@@ -9,7 +9,12 @@ terraform -chdir="azure" init
 terraform -chdir="azure" apply -auto-approve
 ```
 
-Connect to your project on ADO.
+Once that is done, create a secret in the App Registration.
 
-1. Create a project
-2. Create the two pipelines.
+Connect to your project on ADO and follow these steps:
+
+1. Create the Service Connection using the Terraform output.
+1. Create the Backend pipeline using the `azure-pipelines-backend.yml` file.
+2. Create the Frontend pipeline using the `azure-pipelines-frontend.yml` file.
+
+Use Releases for production use cases.
