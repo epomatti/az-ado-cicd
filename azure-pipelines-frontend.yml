@@ -30,3 +30,4 @@ steps:
   inputs:
     app_location: 'frontend'
     skip_api_build: true
+    azure_static_web_apps_api_token: $(deployment_token)
