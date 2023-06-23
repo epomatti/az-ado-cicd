@@ -11,14 +11,30 @@ trigger:
     include:
     - backend
 
-
 pool:
   vmImage: ubuntu-latest
 
 variables:
   buildConfiguration: 'Release'
 
+# - script: dotnet build --configuration $(buildConfiguration)
+#   workingDirectory: backend
+#   displayName: 'dotnet build $(buildConfiguration)'
+
+# - task: DotNetCoreCLI@2
+#   inputs:
+#     command: 'build'
+
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  workingDirectory: backend
-  displayName: 'dotnet build $(buildConfiguration)'
+- task: DotNetCoreCLI@2  
+  inputs:
+    command: 'build'
+    workingDirectory: backend
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'azure-cloud-deployment'
+    appType: 'webAppLinux'
+    WebAppName: 'app-backend-myapp789'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    RuntimeStack: 'DOTNETCORE|7.0'
