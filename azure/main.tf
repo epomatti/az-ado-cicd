@@ -54,10 +54,6 @@ resource "azuread_service_principal" "ado_service_connector" {
   }
 }
 
-resource "azuread_application_password" "ado_service_connector" {
-  application_object_id = azuread_application.ado_service_connector.object_id
-}
-
 ### Role Assignment ###
 
 data "azurerm_subscription" "primary" {

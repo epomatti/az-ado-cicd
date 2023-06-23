@@ -9,4 +9,7 @@ terraform -chdir="azure" init
 terraform -chdir="azure" apply -auto-approve
 ```
 
+Connect to your project on ADO.
 
+1. Create a project
+2. Create the two pipelines.
