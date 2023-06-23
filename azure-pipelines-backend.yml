@@ -25,7 +25,8 @@ steps:
     command: 'publish'
     # workingDirectory: backend
     # configuration: Release
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/backend'
+    # arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/backend'
+    arguments: '--configuration $(BuildConfiguration)'
     zipAfterPublish: true
 
 # - task: ArchiveFiles@2
