@@ -17,26 +17,12 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
-
-
 steps:
 - task: DotNetCoreCLI@2  
   inputs:
     command: 'publish'
-    # workingDirectory: backend
-    # configuration: Release
-    # arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/backend'
     arguments: '--configuration $(BuildConfiguration)'
     zipAfterPublish: true
-
-# - task: ArchiveFiles@2
-#   displayName: 'Create archive for app service deployment'
-#   inputs:
-#     rootFolderOrFile: '$(Build.DefaultWorkingDirectory)\backend\bin\Release'
-#     includeRootFolder: false
-#     archiveType: 'zip'
-#     archiveFile: '$(Build.StagingDirectory)/$(Build.BuildId).zip'
-#     replaceExistingArchive: true
 
 - task: AzureRmWebAppDeployment@4
   inputs:
@@ -44,6 +30,5 @@ steps:
     azureSubscription: 'azure-cloud-deployment'
     appType: 'webAppLinux'
     WebAppName: 'app-backend-myapp789'
-    # packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
     packageForLinux: '**/*.zip'
     RuntimeStack: 'DOTNETCORE|7.0'
