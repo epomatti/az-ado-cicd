@@ -1,4 +1,4 @@
-# Azure ADO CI/CD
+# Azure Cloud + ADO CI/CD
 
 Building and deploying code from Azure DevOps to Azure Cloud.
 
