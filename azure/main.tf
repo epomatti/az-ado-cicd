@@ -26,9 +26,9 @@ data "azuread_client_config" "current" {}
 data "azuread_application_published_app_ids" "well_known" {}
 
 locals {
-  tenant_id = data.azuread_client_config.current.tenant_id
-  # msgraph_application_id = data.azuread_application_published_app_ids.well_known.result.MicrosoftGraph
-  owner_object_id = data.azuread_client_config.current.object_id
+  tenant_id              = data.azuread_client_config.current.tenant_id
+  msgraph_application_id = data.azuread_application_published_app_ids.well_known.result.MicrosoftGraph
+  owner_object_id        = data.azuread_client_config.current.object_id
 }
 
 ### Group ###
@@ -47,57 +47,57 @@ resource "azurerm_resource_group" "main" {
 #   password            = var.user_password
 # }
 
-# resource "azuread_service_principal" "msgraph" {
-#   application_id = local.msgraph_application_id
-#   use_existing   = true
-# }
+resource "azuread_service_principal" "msgraph" {
+  application_id = local.msgraph_application_id
+  use_existing   = true
+}
 
 # ### Backend App Registration ###
 
-# resource "random_uuid" "oauth2_permission_scope_backend" {}
+resource "random_uuid" "oauth2_permission_scope_backend" {}
 
-# resource "azuread_application" "backend" {
-#   display_name     = "spabackend"
-#   identifier_uris  = ["api://spabackend"]
-#   sign_in_audience = "AzureADMyOrg"
-#   owners           = [local.owner_object_id]
+resource "azuread_application" "ado_service_connector" {
+  display_name = "ADO Service Connector"
+  # identifier_uris  = ["api://adoserviceconnector"]
+  sign_in_audience = "AzureADMyOrg"
+  owners           = [local.owner_object_id]
 
-#   api {
-#     requested_access_token_version = 2
+  # api {
+  #   requested_access_token_version = 2
 
-#     oauth2_permission_scope {
-#       id                         = random_uuid.oauth2_permission_scope_backend.result
-#       enabled                    = true
-#       type                       = "User"
-#       admin_consent_display_name = "Admin Consent"
-#       admin_consent_description  = "Admin Consent description"
-#       value                      = "user_impersonation"
-#     }
-#   }
+  #   oauth2_permission_scope {
+  #     id                         = random_uuid.oauth2_permission_scope_backend.result
+  #     enabled                    = true
+  #     type                       = "User"
+  #     admin_consent_display_name = "Admin Consent"
+  #     admin_consent_description  = "Admin Consent description"
+  #     value                      = "user_impersonation"
+  #   }
+  # }
 
-#   required_resource_access {
-#     resource_app_id = local.msgraph_application_id
+  # required_resource_access {
+  #   resource_app_id = local.msgraph_application_id
 
-#     resource_access {
-#       id   = azuread_service_principal.msgraph.oauth2_permission_scope_ids["User.Read"]
-#       type = "Scope"
-#     }
-#   }
-# }
+  #   resource_access {
+  #     id   = azuread_service_principal.msgraph.oauth2_permission_scope_ids["User.Read"]
+  #     type = "Scope"
+  #   }
+  # }
+}
 
-# resource "azuread_service_principal" "backend" {
-#   application_id               = azuread_application.backend.application_id
-#   app_role_assignment_required = false
-#   owners                       = [local.owner_object_id]
+resource "azuread_service_principal" "ado_service_connector" {
+  application_id               = azuread_application.ado_service_connector.application_id
+  app_role_assignment_required = false
+  owners                       = [local.owner_object_id]
 
-#   feature_tags {
-#     enterprise = true
-#   }
-# }
+  feature_tags {
+    enterprise = true
+  }
+}
 
-# resource "azuread_application_password" "backend" {
-#   application_object_id = azuread_application.backend.object_id
-# }
+resource "azuread_application_password" "ado_service_connector" {
+  application_object_id = azuread_application.ado_service_connector.object_id
+}
 
 
 # ### Backend WebApp ###
